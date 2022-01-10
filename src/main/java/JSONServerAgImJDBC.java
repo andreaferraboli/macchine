@@ -38,7 +38,7 @@ public class JSONServerAgImJDBC
 			ArrayList<macchina> l = new ArrayList<>();
 			while (rs.next())
 			{
-				l.add(new macchina(rs.getString("id_macchina"), rs.getString("brand"),
+				l.add(new macchina(rs.getInt("id_macchina"), rs.getString("brand"),
 						rs.getString("modello"), rs.getString("condizione"), rs.getInt("kilometraggio"), rs.getInt("cavalli"), rs.getInt("prezzo")));
 
 			}
@@ -59,7 +59,7 @@ public class JSONServerAgImJDBC
 				response.status(404);
 				return om.writeValueAsString("{status: failed}");
 			}
-			macchina r = new macchina(rs.getString("id_macchina"), rs.getString("brand"),
+			macchina r = new macchina(rs.getInt("id_macchina"), rs.getString("brand"),
 					rs.getString("modello"), rs.getString("condizione"), rs.getInt("kilometraggio"), rs.getInt("cavalli"), rs.getInt("prezzo"));
 
 			return om.writeValueAsString(r);
@@ -75,7 +75,7 @@ public class JSONServerAgImJDBC
 				response.status(404);
 				return om.writeValueAsString("{status: failed}");
 			}
-			macchina r = new macchina(rs.getString("id_macchina"), rs.getString("brand"),
+			macchina r = new macchina(rs.getInt("id_macchina"), rs.getString("brand"),
 					rs.getString("modello"), rs.getString("condizione"), rs.getInt("kilometraggio"), rs.getInt("cavalli"), rs.getInt("prezzo"));
 
 			return om.writeValueAsString(r);
@@ -91,7 +91,7 @@ public class JSONServerAgImJDBC
 			ArrayList<macchina> l = new ArrayList<>();
 			while (rs.next())
 			{
-				l.add(new macchina(rs.getString("id_macchina"), rs.getString("brand"),
+				l.add(new macchina(rs.getInt("id_macchina"), rs.getString("brand"),
 						rs.getString("modello"), rs.getString("condizione"), rs.getInt("kilometraggio"), rs.getInt("cavalli"), rs.getInt("prezzo")));
 
 			}
@@ -100,7 +100,7 @@ public class JSONServerAgImJDBC
 
 
 		post("/add", (request, response) -> {
-			String id_macchina = request.queryParams("id_macchina");
+			int id_macchina = Integer.parseInt(request.queryParams("id_macchina"));
 			String brand = request.queryParams("brand");
 			String modello = request.queryParams("modello");
 			String condizione = request.queryParams("condizione");
@@ -110,7 +110,7 @@ public class JSONServerAgImJDBC
 
 			macchina ai = new macchina(id_macchina, brand, modello, condizione, kilometraggio, cavalli, prezzo);
 			String query = String.format(
-					"INSERT INTO macchine VALUES ('%s', '%s', '%s', '%s', %d, %d,'%d')", id_macchina,
+					"INSERT INTO macchine VALUES ('%d', '%s', '%s', '%s', %d, %d,'%d')", id_macchina,
 					brand, modello, condizione, kilometraggio, cavalli, prezzo);
 			statement.executeUpdate(query);
 

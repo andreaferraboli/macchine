@@ -1,7 +1,7 @@
 public class macchina
 {
 
-    String id_macchina;
+    int id_macchina;
 
     String brand;
     String modello ;
@@ -13,7 +13,7 @@ public class macchina
     public macchina(){
     }
 
-    public macchina(String id_macchina, String brand, String modello, String condizione, int kilometraggio, int cavalli, int prezzo)
+    public macchina(int id_macchina, String brand, String modello, String condizione, int kilometraggio, int cavalli, int prezzo)
     {
         this.id_macchina = id_macchina;
         this.brand = brand;
@@ -24,12 +24,12 @@ public class macchina
         this.prezzo = prezzo;
     }
 
-    public String getId()
+    public int getId()
     {
         return id_macchina;
     }
 
-    public void setId(String id_macchina)
+    public void setId(int id_macchina)
     {
         this.id_macchina = id_macchina;
     }
