@@ -69,16 +69,11 @@ public class JSONServerAgImJDBC
 			String query;
 
 			query = String.format("DELETE FROM macchine where id_macchina = '%s' ", id_macchina);
-			ResultSet rs = statement.executeQuery(query);
-			if (!rs.next())
-			{
-				response.status(404);
-				return om.writeValueAsString("{status: failed}");
-			}
-			macchina r = new macchina(rs.getInt("id_macchina"), rs.getString("brand"),
-					rs.getString("modello"), rs.getString("condizione"), rs.getInt("kilometraggio"), rs.getInt("cavalli"), rs.getInt("prezzo"));
 
-			return om.writeValueAsString(r);
+			int rs = statement.executeUpdate(query);
+			if (rs == 1)
+				return om.writeValueAsString(String.format("delete macchina con id %s effettuato con successo", id_macchina));
+			return String.format("macchina con id %s non presente nel database", id_macchina);
 		});
 
 
