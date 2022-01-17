@@ -113,6 +113,30 @@ public class JSONServerAgImJDBC
 			return om.writeValueAsString(ai);
 		});
 
+		put("/update/:id_macchina", (request, response) -> {
+			int id_macchina = Integer.parseInt(request.queryParams("id_macchina"));
+			String brand = request.queryParams("brand");
+			String modello = request.queryParams("modello");
+			String condizione = request.queryParams("condizione");
+			int kilometraggio = Integer.parseInt(request.queryParams("kilometraggio"));
+			int cavalli = Integer.parseInt(request.queryParams("cavalli"));
+			int prezzo = Integer.parseInt(request.queryParams("prezzo"));
+
+			macchina ai = new macchina(id_macchina, brand, modello, condizione, kilometraggio, cavalli, prezzo);
+			//String query = String.format(
+					//"UPDATE macchine SET ('%d', '%s', '%s', '%s', %d, %d,'%d')", id_macchina,
+					//brand, modello, condizione, kilometraggio, cavalli, prezzo);
+
+
+			String query = "UPDATE `macchine` SET ('%d', '%s', '%s', '%s', %d, %d,'%d'), id_macchina, brand, modello, condizione, kilometraggio, cavalli, prezzo)" +
+					" WHERE `macchine`.`id_macchina` = " + ai.getId();
+
+			statement.executeUpdate(query);
+
+			response.status(404);
+			return om.writeValueAsString(ai);
+		});
+
 	}
 
 	public void dbConnection() throws SQLException
