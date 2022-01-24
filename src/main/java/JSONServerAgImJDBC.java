@@ -114,27 +114,61 @@ public class JSONServerAgImJDBC
 		});
 
 		put("/update/:id_macchina", (request, response) -> {
-			int id_macchina = Integer.parseInt(request.queryParams("id_macchina"));
-			String brand = request.queryParams("brand");
-			String modello = request.queryParams("modello");
-			String condizione = request.queryParams("condizione");
-			int kilometraggio = Integer.parseInt(request.queryParams("kilometraggio"));
-			int cavalli = Integer.parseInt(request.queryParams("cavalli"));
-			int prezzo = Integer.parseInt(request.queryParams("prezzo"));
-
-			macchina ai = new macchina(id_macchina, brand, modello, condizione, kilometraggio, cavalli, prezzo);
-			//String query = String.format(
-					//"UPDATE macchine SET ('%d', '%s', '%s', '%s', %d, %d,'%d')", id_macchina,
-					//brand, modello, condizione, kilometraggio, cavalli, prezzo);
+			macchina car1=om.readValue(request.body(),macchina.class);
+			Integer id_macchina = car1.id_macchina;
+			String brand = car1.brand;
+			String modello =car1.modello;
+			String condizione = car1.condizione;
+			Integer kilometraggio = car1.kilometraggio;
+			Integer cavalli = car1.cavalli;
+			Integer prezzo = car1.prezzo;
 
 
-			String query = "UPDATE `macchine` SET ('%d', '%s', '%s', '%s', %d, %d,'%d'), id_macchina, brand, modello, condizione, kilometraggio, cavalli, prezzo)" +
-					" WHERE `macchine`.`id_macchina` = " + ai.getId();
 
+			String querySet = "";
+			boolean first = false;
+			if (brand != null) {
+				querySet += String.format( "brand= '%s'" , brand );
+				first = true;
+			}
+
+			if (modello != null) {
+				if (first)
+					querySet += " , ";
+				querySet += String.format( "modello= '%s'" , modello );
+				first = true;
+			}
+			if (condizione != null) {
+				if (first)
+					querySet += " , ";
+				querySet += String.format( "condizione= '%s'" , modello );
+				first = true;
+			}
+			if (kilometraggio == 0) {
+				if (first)
+					querySet += " , ";
+				querySet += String.format( "kilometraggio= '%s'" , modello );
+				first = true;
+			}
+			if (cavalli == 0) {
+				if (first)
+					querySet += " , ";
+				querySet += String.format( "cavalli= '%s'" , modello );
+				first = true;
+			}
+			if (prezzo==0) {
+				if (first)
+					querySet += " , ";
+				querySet += String.format( "prezzo= '%s'" , modello );
+			}
+
+			String query = "UPDATE `macchine` SET " + querySet+
+					" WHERE `macchine`.`id_macchina` = " + request.params(":id_macchina");
+			System.out.println(query);
 			statement.executeUpdate(query);
 
 			response.status(404);
-			return om.writeValueAsString(ai);
+			return om.writeValueAsString("macchina modificata correttemente");
 		});
 
 	}
