@@ -1,4 +1,3 @@
-import java.nio.file.Paths;
 import java.sql.*;
 //import java.util.TimeZone;
 
@@ -6,7 +5,6 @@ import java.sql.*;
  * Class for managing DB connections making use of the singleton pattern.
  * Supports any JDBC Connection as long as the proper driver and connection
  * string are provided.
- *
  */
 public class DBManager {
     public static final String JDBC_Driver_SQLite = "org.sqlite.JDBC";
